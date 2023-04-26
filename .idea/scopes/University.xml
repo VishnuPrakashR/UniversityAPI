@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="University" pattern="file[UniversityAPI]:*||file[UniversityAPI]:*/" />
+</component>
