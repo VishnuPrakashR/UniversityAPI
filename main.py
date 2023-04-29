@@ -1,16 +1,14 @@
 #  Copyright (c) 2023. This is the property of Vishnu Prakash
 
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
-from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
-import socket
+from db import Mongo
+from format import JSONEncoder as jsone
+import requests
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/dev"
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
-mongo = PyMongo(app)
-db = mongo.db
+api = Mongo('api')
 app.config.update(
     SECRET_KEY=b'\xa8G\x1c\x84@EQ\xdd\xa2\xf8\xe2\xed\x9e\x9ft\x8f'
 )
@@ -19,7 +17,18 @@ CORS(app, expose_headers="content-disposition", supports_credentials=True)
 
 @app.route("/")
 def hello():
-    return "<p>Hello, Everyone! This is the api gateway of my flask api gateway. Enjoy :)</p>"
+    data = api.getone({"Status": 1})
+    return jsone().encode(data)
+
+
+@app.route('/user/<path:path>', methods=['GET', 'POST'])
+def user(path):
+    data = api.getaftercount({"Status": 1, "Referer": "UserManagement"}, "CallCount")
+    auth_header = request.headers.get('Authorization')
+    headers = {'X-API-Key': data.get('Key'), 'Referer': 'Gateway', 'Authorization': auth_header}
+    url = f'http://localhost:5002/{path}'
+    response = requests.request(request.method, url, headers=headers, data=request.form)
+    return response.text, response.status_code
 
 
 def run():
