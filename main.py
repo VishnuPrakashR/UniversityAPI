@@ -21,15 +21,15 @@ def hello():
     return jsone().encode(data)
 
 
-@app.route('/user/<path:path>', methods=['GET', 'POST'])
-def user(path):
-    data = api.getaftercount({"Status": 1, "Referer": "UserManagement"}, "CallCount")
+@app.route('/<service>/<path:path>', methods=['GET', 'POST'])
+def user(service, path):
+    data = api.getaftercount({"Status": 1, "Service": service}, "CallCount")
     auth_header = request.headers.get('Authorization')
     headers = {'X-API-Key': data.get('Key'), 'Referer': 'Gateway', 'Authorization': auth_header}
-    url = f'http://localhost:5002/{path}'
+    url = f'{data.get("Url")}/{path}'
     response = requests.request(request.method, url, headers=headers, data=request.form)
     return response.text, response.status_code
-
+    # return jsone().encode(request.form)
 
 def run():
     app.run(host="0.0.0.0", port=5001, debug=True, load_dotenv='development')

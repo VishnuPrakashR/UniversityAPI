@@ -20,6 +20,7 @@ ENV PORT 5001
 
 # By default, listen on port 5000
 EXPOSE 5001
+EXPOSE 5001/tcp
 
 # Set the directive to specify the executable that will run when the container is initiated
 ENTRYPOINT [ "python" ]
