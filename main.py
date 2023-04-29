@@ -17,8 +17,7 @@ CORS(app, expose_headers="content-disposition", supports_credentials=True)
 
 @app.route("/")
 def hello():
-    data = api.getone({"Status": 1})
-    return jsone().encode(data)
+    return "<h1>Welcome to API gateway!</h1><p>This is a university App made as part of Software Engineering in Service Computing Module</p>"
 
 
 @app.route('/<service>/<path:path>', methods=['GET', 'POST'])
@@ -29,7 +28,7 @@ def user(service, path):
     url = f'{data.get("Url")}/{path}'
     response = requests.request(request.method, url, headers=headers, data=request.form)
     return response.text, response.status_code
-    # return jsone().encode(request.form)
+
 
 def run():
     app.run(host="0.0.0.0", port=5001, debug=True, load_dotenv='development')
