@@ -21,7 +21,7 @@ def hello():
 
 
 @app.route('/<service>/<path:path>', methods=['GET', 'POST'])
-def user(service, path):
+def processAPI(service, path):
     data = api.getaftercount({"Status": 1, "Service": service}, "CallCount")
     auth_header = request.headers.get('Authorization')
     headers = {'X-API-Key': data.get('Key'), 'Referer': 'Gateway', 'Authorization': auth_header}
