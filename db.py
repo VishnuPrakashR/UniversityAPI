@@ -11,7 +11,7 @@ import pymongo
 class Mongo:
     # Setting database
     def __init__(self, collection):
-        server1 = self.server1 = pymongo.MongoClient("mongodb://172.17.0.2:27017/")
+        server1 = self.server1 = pymongo.MongoClient("mongodb://172.17.0.4:27017/")
         database = server1['api']
         self.collection = database[collection]
 
