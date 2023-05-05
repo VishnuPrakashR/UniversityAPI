@@ -20,7 +20,7 @@ def hello():
     return "<h1>Welcome to API gateway!</h1><p>This is a university App made as part of Software Engineering in Service Computing Module</p>"
 
 
-@app.route('/<service>/<path:path>', methods=['GET', 'POST'])
+@app.route('/<service>/<path:path>', methods=['GET', 'POST', 'PUT', 'DEL'])
 def processAPI(service, path):
     data = api.getaftercount({"Status": 1, "Service": service}, "CallCount")
     auth_header = request.headers.get('Authorization')
