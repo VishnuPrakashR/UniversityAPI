@@ -26,7 +26,10 @@ def processAPI(service, path):
     auth_header = request.headers.get('Authorization')
     headers = {'X-API-Key': data.get('Key'), 'Referer': 'Gateway', 'Authorization': auth_header}
     url = f'{data.get("Url")}/{path}'
-    response = requests.request(request.method, url, headers=headers, data=request.form)
+    if request.headers.get('Content-Type') == 'application/json':
+        response = requests.request(request.method, url, headers=headers, json=request.json)
+    else:
+        response = requests.request(request.method, url, headers=headers, data=request.form)
     return response.text, response.status_code
 
 
