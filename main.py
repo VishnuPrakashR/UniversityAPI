@@ -3,7 +3,6 @@
 from flask import Flask, request
 from flask_cors import CORS
 from db import Mongo
-from format import JSONEncoder as jsone
 import requests
 
 app = Flask(__name__)
